@@ -1,11 +1,16 @@
 package zhurenko.ua.service;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zhurenko.ua.hebirnate.HibernateBookDAO;
 import zhurenko.ua.model.Book;
 import zhurenko.ua.model.Owner;
+import zhurenko.ua.repository.BookJPA;
+import zhurenko.ua.repository.OwnerJPA;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,45 +19,65 @@ import java.util.Set;
 @Service
 public class BookService implements BookInterface {
 
-    private final HibernateBookDAO hibernateBookDAO;
+    private final BookJPA bookJPA;
+
+    private final OwnerJPA ownerJPA;
 
     @Autowired
-    public BookService(HibernateBookDAO hibernateBookDAO) {
-        this.hibernateBookDAO = hibernateBookDAO;
+    public BookService(BookJPA bookJPA, OwnerJPA ownerJPA) {
+        this.bookJPA = bookJPA;
+        this.ownerJPA = ownerJPA;
     }
 
     @Override
     public void saveBook(Book book){
-        hibernateBookDAO.addBook(book);
+        bookJPA.saveAndFlush(book);
     }
 
     @Override
     public void deleteBook(Book book){
-        hibernateBookDAO.deleteBook(book);
+        bookJPA.delete(book);
     }
 
     @Override
     public void updateBook(Book book){
-        hibernateBookDAO.updateBook(book);
+        bookJPA.saveAndFlush(book);
     }
 
     @Override
     public Book getByIdBook(Long id){
-        return hibernateBookDAO.getBook(id);
+        return bookJPA.getOne(id);
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return hibernateBookDAO.getAllBooks();
+        return bookJPA.findAll();
     }
 
     @Override
-    public List<Book> searchBook(String search) {
-        return hibernateBookDAO.searchBook(search);
+    public <T> List<Book> searchBook(T search) {
+
+        List<Book> books = new ArrayList<>();
+        if( search instanceof String ) {
+            if (bookJPA.findBookByName((String)search).size() != 0)
+                books = bookJPA.findBookByName((String) search);
+            if (bookJPA.findBookByAuthor((String)search).size() != 0)
+                books = bookJPA.findBookByAuthor((String)search);
+            if (bookJPA.findBookByStileOfBook((String) search).size() != 0)
+                books = bookJPA.findBookByStileOfBook((String) search);
+            if (bookJPA.findBookByDescription((String) search).size()!= 0)
+                books = bookJPA.findBookByDescription((String) search);
+        } else if (search instanceof Integer) {
+            if (bookJPA.findBookByYear((Integer) search).size() != 0)
+                books = bookJPA.findBookByYear((Integer) search);
+            if (bookJPA.findBookByNumPages((Integer) search).size()!= 0)
+                books = bookJPA.findBookByNumPages((Integer) search);
+        }
+        return books;
     }
 
     @Override
     public Set<Owner> getOwners() {
-        return hibernateBookDAO.getOwner();
+        return new HashSet<>(ownerJPA.findAll());
     }
 }

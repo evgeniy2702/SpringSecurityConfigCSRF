@@ -4,11 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zhurenko.ua.model.Book;
-import zhurenko.ua.model.Owner;
 import zhurenko.ua.service.BookService;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @Controller
@@ -21,15 +17,16 @@ public class BookController {
     }
 
     @GetMapping("")
-    public String showBook(Model model) throws SQLException, ClassNotFoundException {
+    public String showBook(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
         return "showBooks";
     }
 
     @GetMapping("/book/{id}")
     public String getBook(@PathVariable(value = "id", required = false) Long id,
-                          Model model) throws SQLException, ClassNotFoundException {
-        model.addAttribute("book", bookService.getByIdBook(id));
+                          Model model)  {
+        Book book = bookService.getByIdBook(id);
+        model.addAttribute("book", book);
         return "book";
     }
 
@@ -37,8 +34,6 @@ public class BookController {
     public String addBook(Model model) {
         Book book = new Book();
         book.setOwners(new HashSet<>(bookService.getOwners().size()));
-        System.out.println(book.getOwners().size());
-        book.getOwners().forEach(o-> System.out.println(o.toString()));
         model.addAttribute("book", book);
         model.addAttribute("default", "Default value");
         return "addBook";
@@ -48,7 +43,6 @@ public class BookController {
     public String deleteBook(@PathVariable(value = "id", required = false) Long id,
                              Model model){
         Book book = bookService.getByIdBook(id);
-
         bookService.deleteBook(book);
         model.addAttribute("books", bookService.getAllBooks());
         return "redirect:/";
@@ -56,8 +50,6 @@ public class BookController {
 
     @PostMapping("/book/add")
     public String saveBook(@ModelAttribute Book book){
-        System.out.println(book.getOwners().size());
-        book.getOwners().forEach(o-> System.out.println(o.toString()));
         bookService.saveBook(book);
         return "redirect:/";
     }

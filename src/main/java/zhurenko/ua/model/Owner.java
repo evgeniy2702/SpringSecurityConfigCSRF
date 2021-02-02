@@ -1,11 +1,13 @@
 package zhurenko.ua.model;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "owners")
+@Proxy(lazy = false)
 public class Owner {
 
     @Id
@@ -15,7 +17,7 @@ public class Owner {
     @Column(name = "name")
     private String nameOwner;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "owners")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "owners")
     private Set<Book> bookOwnerSet ;
 
     public Long getId() {

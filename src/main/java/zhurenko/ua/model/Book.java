@@ -1,13 +1,14 @@
 package zhurenko.ua.model;
 
+import org.hibernate.annotations.Proxy;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "books")
+@Proxy(lazy=false)
 public class Book {
 
     @Id
@@ -25,14 +26,14 @@ public class Book {
     private String description;
 
     @ManyToOne(targetEntity = Buyer.class,
-                fetch = FetchType.LAZY,
-                cascade = CascadeType.ALL)
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "buyer_id",
-                referencedColumnName = "buyer_id")
+            referencedColumnName = "buyer_id")
     private Buyer buyer;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "owner_books",
             joinColumns =  @JoinColumn(name = "book_id" , referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "owner_id", referencedColumnName = "id_owner"))

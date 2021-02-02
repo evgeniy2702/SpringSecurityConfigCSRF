@@ -1,11 +1,13 @@
 package zhurenko.ua.model;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "buyers")
+@Proxy(lazy = false)
 public class Buyer {
 
     @Id
@@ -14,7 +16,7 @@ public class Buyer {
     private Long id;
     private String nameBuyer;
 
-    @OneToMany(fetch = FetchType.LAZY,
+    @OneToMany(fetch = FetchType.EAGER,
                 mappedBy = "buyer", orphanRemoval = true)
     private Set<Book> bookSet ;
 
