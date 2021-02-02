@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/book/add}" th:object="${book}" method="post" >
+<h2>Add book :</h2>
+    <table>
+        <tr>
+            <th>Name of Book</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Stile</th>
+            <th>Number of pages</th>
+        </tr>
+        <tr>
+            <td><input type="text"  th:field="*{name}"/></td>
+            <td><input type="text" th:field="*{author}"/></td>
+            <td><input type="number" th:field="*{year}"/></td>
+            <td><input type="text" th:field="*{stileOfBook}"/></td>
+            <td><input type="number" th:field="*{numPages}"/></td>
+        </tr>
+        <tr>
+            <th>Description of book</th>
+            <th>Buyer ID</th>
+            <th>Buyer name</th>
+            <th>Owners</th>
+        </tr>
+        <tr>
+            <td><input type="text" th:field="*{description}"/></td>
+
+            <td><input type="text" th:field="*{buyer.id}"/></td>
+            <td><input type="text" th:field="*{buyer.nameBuyer}"/></td>
+
+            <td >
+                <table>
+                    <tr>
+                        <td>Id count</td>
+                        <td>Id Owner</td>
+                        <td>Name Owner</td>
+                    </tr>
+                    <tr th:each="owner, ownerStat: *{owners}">
+                        <td th:text="${ownerStat.count}"></td>
+                        <td><input type="text" th:field="*{owners[__${ownerStat.index}__].id}"/></td>
+                        <td><input type="text" th:field="*{owners[__${ownerStat.index}__].nameOwner}"/></td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+    </table>
+    <p><input type="submit" value="Submit"/>
+
+</form>
+
+<p><a th:href="@{/}" >Start page</a></p>
+
+</body>
+</html>

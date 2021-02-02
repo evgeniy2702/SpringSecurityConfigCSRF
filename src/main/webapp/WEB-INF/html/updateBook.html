@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Book</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/book/update/{id}( id= ${ book.getId() } ) }" th:object="${book}" method="post" >
+<h2>Update this book :</h2>
+    <table>
+        <tr>
+            <th>Id of Book</th>
+            <th>Name of Book</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Stile</th>
+            <th>Number of pages</th>
+        </tr>
+        <tr>
+            <td th:text="*{id}"></td>
+            <td><input type="text"  th:field="*{name}"/></td>
+            <td><input type="text" th:field="*{author}"/></td>
+            <td><input type="number" th:field="*{year}"/></td>
+            <td><input type="text" th:field="*{stileOfBook}"/></td>
+            <td><input type="number" th:field="*{numPages}"/></td>
+        </tr>
+        <tr>
+            <th>Description of book</th>
+            <th>Current Buyer</th>
+            <th>Update Buyer ID</th>
+            <th>Update Buyer name</th>
+            <th>Current Owners</th>
+        </tr>
+        <tr>
+            <td><input type="text" th:field="*{description}"/></td>
+            <td><input type="text" th:field="*{buyer.nameBuyer}" disabled/></td>
+            <td><input type="text" th:field="*{buyer.id}"/></td>
+            <td><input type="text" th:field="*{buyer.nameBuyer}"/></td>
+            <td >
+                <table>
+                    <tr>
+                        <td>Id Owner</td>
+                        <td>Name Owner</td>
+                    </tr>
+                    <tr th:each="owner, ownerStat: *{owners}">
+                        <td><input type="text" th:field="*{owners[__${ownerStat.index}__].id}"/></td>
+                        <td><input type="text" th:field="*{owners[__${ownerStat.index}__].nameOwner}"/></td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+    </table>
+
+    <p><input type="submit" value="Submit"/>
+
+</form>
+
+<p><a th:href="@{/}" >Start page</a></p>
+
+</body>
+</html>

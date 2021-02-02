@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Book_info</title>
+</head>
+<body>
+<h2>Book info :</h2>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name of Book</th>
+        <th>Author</th>
+        <th>Year</th>
+        <th>Stile</th>
+        <th>Number of pages</th>
+        <th>Description of book</th>
+        <th>Buyer</th>
+        <th>Owners</th>
+        <th>Delete</th>
+    </tr>
+    <tr>
+        <td th:text="${book.id}"></td>
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.year}"></td>
+        <td th:text="${book.stileOfBook}"></td>
+        <td th:text="${book.numPages}"></td>
+        <td th:text="${book.description}"></td>
+        <td th:text="${book.buyer.getNameBuyer()}"></td>
+        <td>
+            <div th:each="owner: ${book.owners}">
+                <p th:text="${owner.nameOwner}"></p>
+            </div>
+        </td>
+        <td><a th:href="@{/book/delete/{id}( id= ${ book.getId() } ) }">Delete</a></td>
+    </tr>
+</table>
+
+<p><a th:href="@{/book/update/{id}( id= ${ book.getId() } ) }"> Update book</a></p>
+<br>
+<p><a th:href="@{/}" >Start page</a></p>
+
+
+</body>
+</html>
