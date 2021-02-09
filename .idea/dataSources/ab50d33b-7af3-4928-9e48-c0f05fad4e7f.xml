@@ -998,6 +998,7 @@
     <column id="250" parent="239" name="buyer_id">
       <Position>8</Position>
       <DataType>bigint(100)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="251" parent="239" name="buyerKey_idx">
@@ -1046,15 +1047,27 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="259" parent="241" name="book_fk_idx">
+    <column id="259" parent="241" name="id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="260" parent="241" name="book_fk_idx">
       <ColNames>book_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="260" parent="241" name="owner_fk_idx">
+    <index id="261" parent="241" name="owner_fk_idx">
       <ColNames>owner_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="261" parent="241" name="book_fk">
+    <key id="262" parent="241" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="263" parent="241" name="book_fk">
       <ColNames>book_id</ColNames>
       <RefSchemaName>books</RefSchemaName>
       <RefTableName>books</RefTableName>
@@ -1062,7 +1075,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="262" parent="241" name="owner_fk">
+    <foreign-key id="264" parent="241" name="owner_fk">
       <ColNames>owner_id</ColNames>
       <RefSchemaName>books</RefSchemaName>
       <RefTableName>owners</RefTableName>
@@ -1070,21 +1083,21 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="263" parent="242" name="id_owner">
+    <column id="265" parent="242" name="id_owner">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="264" parent="242" name="name">
+    <column id="266" parent="242" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="265" parent="242" name="PRIMARY">
+    <key id="267" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id_owner</ColNames>
       <Primary>1</Primary>

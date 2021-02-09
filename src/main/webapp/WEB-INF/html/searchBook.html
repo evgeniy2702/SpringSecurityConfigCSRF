@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Search_Book</title>
+    <style>
+        .error{
+            color: red;
+        }
+        table, th, td {
+            border: 1px solid;
+        }
+        th {
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,10 +36,11 @@
                 <th>Description of book</th>
                 <th>Buyer</th>
                 <th>Owners</th>
+                <th>Delete</th>
             </tr>
             <tr th:each="book: ${booksSearch}">
                 <td th:text="${book.id}">
-                <td th:text="${book.name}">Name</td>
+                <td><a th:href="@{ book/{id}( id= ${ book.getId() } ) }" th:text="${book.name}">Name</a></td>
                 <td th:text="${book.author}">Author</td>
                 <td th:text="${book.year}">Year</td>
                 <td th:text="${book.stileOfBook}">Stile of Book</td>
@@ -40,6 +52,7 @@
                         <p th:text="${owner.nameOwner}"></p>
                     </div>
                 </td>
+                <td><a th:href="@{/book/delete/{id}( id= ${ book.getId() } ) }">Delete</a></td>
             </tr>
         </table>
     </div>
@@ -49,6 +62,7 @@
     </div>
 </form>
 
+<p><a th:href="@{/book/new}">Add book</a></p>
 <p><a th:href="@{/}" >Start page</a></p>
 
 </body>

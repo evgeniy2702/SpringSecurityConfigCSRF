@@ -17,7 +17,7 @@ import java.util.Set;
 
 
 @Service
-public class BookService implements BookInterface {
+public class BookService {
 
     private final BookJPA bookJPA;
 
@@ -29,32 +29,26 @@ public class BookService implements BookInterface {
         this.ownerJPA = ownerJPA;
     }
 
-    @Override
     public void saveBook(Book book){
         bookJPA.saveAndFlush(book);
     }
 
-    @Override
     public void deleteBook(Book book){
         bookJPA.delete(book);
     }
 
-    @Override
     public void updateBook(Book book){
         bookJPA.saveAndFlush(book);
     }
 
-    @Override
     public Book getByIdBook(Long id){
         return bookJPA.getOne(id);
     }
 
-    @Override
     public List<Book> getAllBooks() {
         return bookJPA.findAll();
     }
 
-    @Override
     public <T> List<Book> searchBook(T search) {
 
         List<Book> books = new ArrayList<>();
@@ -76,7 +70,6 @@ public class BookService implements BookInterface {
         return books;
     }
 
-    @Override
     public Set<Owner> getOwners() {
         return new HashSet<>(ownerJPA.findAll());
     }

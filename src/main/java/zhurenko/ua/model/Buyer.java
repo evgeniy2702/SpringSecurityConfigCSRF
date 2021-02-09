@@ -17,7 +17,7 @@ public class Buyer {
     private String nameBuyer;
 
     @OneToMany(fetch = FetchType.EAGER,
-                mappedBy = "buyer", orphanRemoval = true)
+                mappedBy = "buyer")
     private Set<Book> bookSet ;
 
     public Long getId() {

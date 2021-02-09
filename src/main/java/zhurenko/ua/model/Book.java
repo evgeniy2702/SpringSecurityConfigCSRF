@@ -27,13 +27,14 @@ public class Book {
 
     @ManyToOne(targetEntity = Buyer.class,
             fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.MERGE)
     @JoinColumn(name = "buyer_id",
             referencedColumnName = "buyer_id")
     private Buyer buyer;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+                cascade = CascadeType.MERGE)
     @JoinTable(name = "owner_books",
             joinColumns =  @JoinColumn(name = "book_id" , referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "owner_id", referencedColumnName = "id_owner"))
@@ -126,17 +127,30 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", year=" + year +
-                ", stileOfBook='" + stileOfBook + '\'' +
-                ", numPages=" + numPages +
-                ", description='" + description + '\'' +
-                ", buyerId=" + buyer.getId() + '\'' +
-                ", buyerName=" + buyer.getNameBuyer() + '\'' +
-                ", " + ownerToString(owners) +
-                '}';
+        if(owners.size() == 0){
+            return "Book{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", author='" + author + '\'' +
+                    ", year=" + year +
+                    ", stileOfBook='" + stileOfBook + '\'' +
+                    ", numPages=" + numPages +
+                    ", description='" + description + '\'' +
+                    ", buyerId=" + buyer.getId() +
+                    '}';
+        } else {
+            return "Book{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", author='" + author + '\'' +
+                    ", year=" + year +
+                    ", stileOfBook='" + stileOfBook + '\'' +
+                    ", numPages=" + numPages +
+                    ", description='" + description + '\'' +
+                    ", buyerId=" + buyer.getId() + '\'' +
+                    ", buyerName=" + buyer.getNameBuyer() + '\'' +
+                    ", " + ownerToString(owners) +
+                    '}';
+        }
     }
 }
