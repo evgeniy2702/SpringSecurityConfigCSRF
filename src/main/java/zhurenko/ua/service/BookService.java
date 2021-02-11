@@ -20,7 +20,6 @@ import java.util.Set;
 public class BookService {
 
     private final BookJPA bookJPA;
-
     private final OwnerJPA ownerJPA;
 
     @Autowired
@@ -30,15 +29,18 @@ public class BookService {
     }
 
     public void saveBook(Book book){
-        bookJPA.saveAndFlush(book);
+        bookJPA.save(book);
+        bookJPA.flush();
     }
 
     public void deleteBook(Book book){
         bookJPA.delete(book);
+        bookJPA.flush();
     }
 
     public void updateBook(Book book){
-        bookJPA.saveAndFlush(book);
+        bookJPA.save(book);
+        bookJPA.flush();
     }
 
     public Book getByIdBook(Long id){

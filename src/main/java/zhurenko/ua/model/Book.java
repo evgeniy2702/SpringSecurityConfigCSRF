@@ -1,6 +1,8 @@
 package zhurenko.ua.model;
 
 import org.hibernate.annotations.Proxy;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,15 +28,13 @@ public class Book {
     private String description;
 
     @ManyToOne(targetEntity = Buyer.class,
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.MERGE)
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "buyer_id",
             referencedColumnName = "buyer_id")
     private Buyer buyer;
 
 
-    @ManyToMany(fetch = FetchType.EAGER,
-                cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "owner_books",
             joinColumns =  @JoinColumn(name = "book_id" , referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "owner_id", referencedColumnName = "id_owner"))
@@ -112,17 +112,12 @@ public class Book {
         this.owners = owners;
     }
 
-    public String ownerToString(Set<Owner> owners){
+    private String ownerToString(Set<Owner> owners){
         String string = "";
         for (Owner owner : owners) {
             string = string.concat(owner.toString());
         }
         return string;
-    }
-
-    public void addSetOwners(Owner owner){
-        this.owners = new HashSet<>();
-        this.owners.add(owner);
     }
 
     @Override

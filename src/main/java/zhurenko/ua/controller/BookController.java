@@ -5,21 +5,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zhurenko.ua.model.Book;
 import zhurenko.ua.model.Owner;
-import zhurenko.ua.service.BookOwnerService;
 import zhurenko.ua.service.BookService;
 import zhurenko.ua.service.OwnerService;
+
 import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class BookController {
 
     private final BookService bookService;
-    private final BookOwnerService bookOwnerService;
     private final OwnerService ownerService;
 
-    public BookController(BookService bookService, BookOwnerService bookOwnerService, OwnerService ownerService) {
+    public BookController(BookService bookService, OwnerService ownerService) {
         this.bookService = bookService;
-        this.bookOwnerService = bookOwnerService;
         this.ownerService = ownerService;
     }
 
@@ -71,7 +70,20 @@ public class BookController {
     @GetMapping("/book/delete/relation")
     public String updateBookWithoutOwner(@RequestParam("book_id") Long book_id,
                                          @RequestParam("owner_id") Long owner_id){
-        bookOwnerService.deleteRelation(book_id,owner_id);
+        Book book = bookService.getByIdBook(book_id);
+        Owner owner = ownerService.getOwnerById(owner_id);
+
+        Set<Owner> owners = book.getOwners();
+        for (Owner o :owners) {
+            if(o.getId().equals(owner_id) ){
+                owner = o;
+                break;
+            }
+        }
+        owners.remove(owner);
+
+        bookService.updateBook(book);
+
         return "redirect:/";
     }
 
@@ -82,12 +94,20 @@ public class BookController {
             Owner owner = new Owner();
             owner.setNameOwner(string);
             ownerService.saveOwner(owner);
-            bookOwnerService.saveRelation(book_id, owner.getId());
+
+            Book book = bookService.getByIdBook(book_id);
+
+            book.getOwners().add(owner);
+            bookService.saveBook(book);
+
         } else {
-            Owner owner = (Owner)ownerService.getListOwners().stream()
+            Owner owner = (Owner) ownerService.getListOwners().stream()
                     .filter(o -> o.getNameOwner().equalsIgnoreCase(string))
                     .toArray()[0];
-            bookOwnerService.saveRelation(book_id, owner.getId());
+
+            Book book = bookService.getByIdBook(book_id);
+            book.getOwners().add(owner);
+            bookService.saveBook(book);
         }
         return "redirect:/";
     }

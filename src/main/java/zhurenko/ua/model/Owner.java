@@ -17,7 +17,11 @@ public class Owner {
     @Column(name = "name")
     private String nameOwner;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "owners")
+    @ManyToMany(fetch = FetchType.EAGER,
+            mappedBy = "owners")
+//    @JoinTable(name = "owner_books",
+//            joinColumns =  @JoinColumn(name = "owner_id" , referencedColumnName = "id_owner"),
+//            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private Set<Book> bookOwnerSet ;
 
     public Long getId() {
@@ -38,10 +42,6 @@ public class Owner {
 
     public Set<Book> getBookOwnerSet() {
         return bookOwnerSet;
-    }
-
-    public void setBookOwnerSet(Set<Book> bookOwnerSet) {
-        this.bookOwnerSet = bookOwnerSet;
     }
 
     @Override

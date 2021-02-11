@@ -21,12 +21,20 @@ public class OwnerService {
     }
 
     public void saveOwner(Owner owner) {
-        ownerJPA.save(owner);
+        ownerJPA.saveAndFlush(owner);
+    }
+
+    public void updateOwner(Owner owner){
+        ownerJPA.saveAndFlush(owner);
     }
 
     public Owner getLastOwnerByName(String string) {
         List<Owner> owners = ownerJPA.findAll();
         owners = owners.stream().filter(o -> o.getNameOwner().equalsIgnoreCase(string)).collect(Collectors.toList());
         return (Owner) owners.stream().sorted((o1, o2) -> o2.getId().compareTo(o1.getId())).toArray()[0];
+    }
+
+    public Owner getOwnerById(Long id){
+        return ownerJPA.getOne(id);
     }
 }
