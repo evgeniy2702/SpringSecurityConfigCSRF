@@ -39,8 +39,7 @@ public class BookService {
     }
 
     public void updateBook(Book book){
-        bookJPA.save(book);
-        bookJPA.flush();
+        bookJPA.saveAndFlush(book);
     }
 
     public Book getByIdBook(Long id){
