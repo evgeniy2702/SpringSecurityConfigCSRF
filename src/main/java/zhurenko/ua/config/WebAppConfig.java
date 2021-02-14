@@ -7,7 +7,7 @@ public class WebAppConfig extends AbstractAnnotationConfigDispatcherServletIniti
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{
-                PersistenceConfig.class,
+                PersistenceConfig.class,CoreConfig.class,
                 SecurityConfig.class
         };
     }
