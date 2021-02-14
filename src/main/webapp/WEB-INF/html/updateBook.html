@@ -15,7 +15,7 @@
 </head>
 <body>
 <div th:object="${book}">
-    <form th:action="@{/book/update/{id}(id = ${book.getId()})}"  method="post" >
+    <form th:action="@{/book/update/{id}( id = ${book.getId()} )}"  method="post" >
         <h2>Update this book :</h2>
         <table>
             <tr>

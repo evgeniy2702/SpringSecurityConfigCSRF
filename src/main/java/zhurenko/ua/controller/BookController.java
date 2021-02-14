@@ -4,22 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zhurenko.ua.model.Book;
-import zhurenko.ua.model.Owner;
 import zhurenko.ua.service.BookService;
-import zhurenko.ua.service.OwnerService;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class BookController {
 
     private final BookService bookService;
-    private final OwnerService ownerService;
 
-    public BookController(BookService bookService, OwnerService ownerService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.ownerService = ownerService;
     }
 
     @GetMapping("")
@@ -38,9 +32,7 @@ public class BookController {
 
     @GetMapping("/book/new")
     public String addBook(Model model) {
-        Book book = new Book();
-        book.setOwners(new HashSet<>(bookService.getOwners().size()));
-        model.addAttribute("book", book);
+        model.addAttribute("book", bookService.addNewBook());
         model.addAttribute("default", "Default value");
         return "addBook";
     }
@@ -63,52 +55,21 @@ public class BookController {
     @PostMapping("/book/update/{id}")
     public String updateBook(@PathVariable(value = "id", required = false) Long id,
                              @ModelAttribute Book book){
-        bookService.updateBook(book);
+        bookService.updateBookById(book, id);
         return "redirect:/";
     }
 
     @GetMapping("/book/delete/relation")
     public String updateBookWithoutOwner(@RequestParam("book_id") Long book_id,
                                          @RequestParam("owner_id") Long owner_id){
-        Book book = bookService.getByIdBook(book_id);
-        Owner owner = ownerService.getOwnerById(owner_id);
-
-        Set<Owner> owners = book.getOwners();
-        for (Owner o :owners) {
-            if(o.getId().equals(owner_id) ){
-                owner = o;
-                break;
-            }
-        }
-        owners.remove(owner);
-
-        bookService.updateBook(book);
-
+        bookService.deleteOwner(book_id, owner_id);
         return "redirect:/";
     }
 
     @GetMapping("/book/add/owner")
     public String addOwner (@RequestParam("id") Long book_id,
                             @RequestParam("owner_book") String string){
-        if (ownerService.getListOwners().stream().noneMatch(o -> o.getNameOwner().equalsIgnoreCase(string))) {
-            Owner owner = new Owner();
-            owner.setNameOwner(string);
-            ownerService.saveOwner(owner);
-
-            Book book = bookService.getByIdBook(book_id);
-
-            book.getOwners().add(owner);
-            bookService.saveBook(book);
-
-        } else {
-            Owner owner = (Owner) ownerService.getListOwners().stream()
-                    .filter(o -> o.getNameOwner().equalsIgnoreCase(string))
-                    .toArray()[0];
-
-            Book book = bookService.getByIdBook(book_id);
-            book.getOwners().add(owner);
-            bookService.saveBook(book);
-        }
+    bookService.addOwner(book_id, string);
         return "redirect:/";
     }
 

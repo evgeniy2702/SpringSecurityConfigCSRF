@@ -20,12 +20,12 @@ import java.util.Set;
 public class BookService {
 
     private final BookJPA bookJPA;
-    private final OwnerJPA ownerJPA;
+    private final OwnerService ownerService;
 
     @Autowired
-    public BookService(BookJPA bookJPA, OwnerJPA ownerJPA) {
+    public BookService(BookJPA bookJPA, OwnerService ownerService) {
         this.bookJPA = bookJPA;
-        this.ownerJPA = ownerJPA;
+        this.ownerService = ownerService;
     }
 
     public void saveBook(Book book){
@@ -43,7 +43,7 @@ public class BookService {
     }
 
     public Book getByIdBook(Long id){
-        return bookJPA.getOne(id);
+        return bookJPA.getBookById(id);
     }
 
     public List<Book> getAllBooks() {
@@ -72,6 +72,57 @@ public class BookService {
     }
 
     public Set<Owner> getOwners() {
-        return new HashSet<>(ownerJPA.findAll());
+        return new HashSet<>(ownerService.getListOwners());
+    }
+
+    public void addOwner(Long book_id, String string){
+        if (ownerService.getListOwners().stream().noneMatch(o -> o.getNameOwner().equalsIgnoreCase(string))) {
+            Owner owner = new Owner();
+            owner.setNameOwner(string);
+            ownerService.saveOwner(owner);
+
+            Book book = getByIdBook(book_id);
+
+            book.getOwners().add(owner);
+            saveBook(book);
+
+        } else {
+            Owner owner = (Owner) ownerService.getListOwners().stream()
+                    .filter(o -> o.getNameOwner().equalsIgnoreCase(string))
+                    .toArray()[0];
+
+            Book book = getByIdBook(book_id);
+            book.getOwners().add(owner);
+            saveBook(book);
+        }
+    }
+
+    public void deleteOwner(Long book_id, Long owner_id) {
+        Book book = getByIdBook(book_id);
+        Owner owner = ownerService.getOwnerById(owner_id);
+
+        Set<Owner> owners = book.getOwners();
+        for (Owner o :owners) {
+            if(o.getId().equals(owner_id) ){
+                owner = o;
+                break;
+            }
+        }
+        owners.remove(owner);
+
+        updateBook(book);
+    }
+
+    public Book addNewBook(){
+        Book book = new Book();
+        book.setOwners(new HashSet<>(getOwners().size()));
+        return book;
+    }
+
+    public void updateBookById(Book book, Long id) {
+        Book book1 = getByIdBook(id);
+        book.setOwners(book1.getOwners());
+        book1 = book;
+        updateBook(book1);
     }
 }
