@@ -24,14 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/login", "/registration").permitAll()
-                .mvcMatchers("/").authenticated()
-                .and().csrf().disable()
+                    .mvcMatchers("/login", "/registration").permitAll()
+                    .mvcMatchers("/").authenticated()
+                    .and().csrf().disable()
                 .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login/form")
-                .usernameParameter("email")
-                .and()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login/form")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .failureForwardUrl("/login?error=true")
+                    .permitAll()
+                    .and()
                 .logout().permitAll();
 
     }
