@@ -948,128 +948,129 @@
     <table id="242" parent="3" name="owners"/>
     <table id="243" parent="3" name="role"/>
     <table id="244" parent="3" name="users"/>
-    <column id="245" parent="239" name="id">
+    <table id="245" parent="3" name="users_role"/>
+    <column id="246" parent="239" name="id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="246" parent="239" name="name">
+    <column id="247" parent="239" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="247" parent="239" name="author">
+    <column id="248" parent="239" name="author">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="248" parent="239" name="year">
+    <column id="249" parent="239" name="year">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="249" parent="239" name="stile">
+    <column id="250" parent="239" name="stile">
       <Position>5</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="239" name="num_pages">
+    <column id="251" parent="239" name="num_pages">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="239" name="description">
+    <column id="252" parent="239" name="description">
       <Position>7</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="252" parent="239" name="buyer_id">
+    <column id="253" parent="239" name="buyer_id">
       <Position>8</Position>
       <DataType>bigint(100)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="253" parent="239" name="buyerKey_idx">
+    <index id="254" parent="239" name="buyerKey_idx">
       <ColNames>buyer_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="254" parent="239" name="PRIMARY">
+    <key id="255" parent="239" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="255" parent="239" name="buyerKey">
+    <foreign-key id="256" parent="239" name="buyerKey">
       <ColNames>buyer_id</ColNames>
       <RefSchemaName>books</RefSchemaName>
       <RefTableName>buyers</RefTableName>
       <RefColNames>buyer_id</RefColNames>
     </foreign-key>
-    <column id="256" parent="240" name="buyer_id">
+    <column id="257" parent="240" name="buyer_id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="240" name="nameBuyer">
+    <column id="258" parent="240" name="nameBuyer">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="258" parent="240" name="PRIMARY">
+    <key id="259" parent="240" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>buyer_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="259" parent="241" name="book_id">
+    <column id="260" parent="241" name="book_id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="260" parent="241" name="owner_id">
+    <column id="261" parent="241" name="owner_id">
       <Position>2</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="241" name="id">
+    <column id="262" parent="241" name="id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="262" parent="241" name="book_fk_idx">
+    <index id="263" parent="241" name="book_fk_idx">
       <ColNames>book_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="263" parent="241" name="owner_fk_idx">
+    <index id="264" parent="241" name="owner_fk_idx">
       <ColNames>owner_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="264" parent="241" name="PRIMARY">
+    <key id="265" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="265" parent="241" name="book_fk">
+    <foreign-key id="266" parent="241" name="book_fk">
       <ColNames>book_id</ColNames>
       <RefSchemaName>books</RefSchemaName>
       <RefTableName>books</RefTableName>
@@ -1077,7 +1078,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="266" parent="241" name="owner_fk">
+    <foreign-key id="267" parent="241" name="owner_fk">
       <ColNames>owner_id</ColNames>
       <RefSchemaName>books</RefSchemaName>
       <RefTableName>owners</RefTableName>
@@ -1085,65 +1086,99 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="267" parent="242" name="id_owner">
+    <column id="268" parent="242" name="id_owner">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="268" parent="242" name="name">
+    <column id="269" parent="242" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Null&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="269" parent="242" name="PRIMARY">
+    <key id="270" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id_owner</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="270" parent="243" name="id">
+    <column id="271" parent="243" name="id">
       <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="271" parent="243" name="name">
+    <column id="272" parent="243" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="272" parent="243" name="PRIMARY">
+    <key id="273" parent="243" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="273" parent="244" name="id">
+    <column id="274" parent="244" name="id">
       <Position>1</Position>
       <DataType>bigint(100)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="274" parent="244" name="email">
+    <column id="275" parent="244" name="email">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="275" parent="244" name="password">
+    <column id="276" parent="244" name="password">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="276" parent="244" name="PRIMARY">
+    <key id="277" parent="244" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
+    <column id="278" parent="245" name="users_id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="279" parent="245" name="roles_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="280" parent="245" name="FKa361i5xxwmd7x48qjg0g95aey">
+      <ColNames>roles_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="281" parent="245" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>users_id
+roles_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="282" parent="245" name="FKiu0xsee0dmwa28nffgyf4bcvc">
+      <ColNames>users_id</ColNames>
+      <RefSchemaName>books</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="283" parent="245" name="FKa361i5xxwmd7x48qjg0g95aey">
+      <ColNames>roles_id</ColNames>
+      <RefSchemaName>books</RefSchemaName>
+      <RefTableName>role</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>

@@ -20,6 +20,9 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_role",
+                joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
     Set<Role> roles = new HashSet<>();
 
     public User() {
