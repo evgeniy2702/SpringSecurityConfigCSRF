@@ -1,40 +1,52 @@
 package zhurenko.ua.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import zhurenko.ua.model.Owner;
+import zhurenko.ua.model.Role;
 import zhurenko.ua.repository.OwnerJPA;
+
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OwnerService {
 
     private final OwnerJPA ownerJPA;
 
+    private PasswordEncoder passwordEncoder;
+
     public OwnerService(OwnerJPA ownerJPA) {
         this.ownerJPA = ownerJPA;
     }
 
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<Owner> getListOwners() {
         return ownerJPA.findAll();
     }
 
-    public void saveOwner(Owner owner) {
+    public boolean saveOwner(Owner owner) {
+        Owner ownerFromDB = ownerJPA.getByEmail(owner.getEmail());
+        if(ownerFromDB != null){
+            return false;
+        }
+        owner.setRoles(Collections.singleton(new Role(1L, "USER")));
+        owner.setPassword(passwordEncoder.encode(owner.getPassword()));
         ownerJPA.saveAndFlush(owner);
+        return true;
     }
 
-    public void updateOwner(Owner owner){
-        ownerJPA.saveAndFlush(owner);
-    }
-
-    public Owner getLastOwnerByName(String string) {
-        List<Owner> owners = ownerJPA.findAll();
-        owners = owners.stream().filter(o -> o.getNameOwner().equalsIgnoreCase(string)).collect(Collectors.toList());
-        return (Owner) owners.stream().sorted((o1, o2) -> o2.getId().compareTo(o1.getId())).toArray()[0];
-    }
 
     public Owner getOwnerById(Long id){
         return ownerJPA.getOne(id);
+    }
+
+    public Owner getOwnerByEmail(String email) {
+        return ownerJPA.getByEmail(email);
     }
 }

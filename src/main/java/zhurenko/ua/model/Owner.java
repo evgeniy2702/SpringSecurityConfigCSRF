@@ -1,8 +1,8 @@
 package zhurenko.ua.model;
 
 import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,6 +16,10 @@ public class Owner {
     private Long id;
     @Column(name = "name")
     private String nameOwner;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "password")
+    private String password;
 
     @ManyToMany(fetch = FetchType.EAGER,
             mappedBy = "owners")
@@ -23,6 +27,12 @@ public class Owner {
 //            joinColumns =  @JoinColumn(name = "owner_id" , referencedColumnName = "id_owner"),
 //            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private Set<Book> bookOwnerSet ;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "owner_role",
+            joinColumns = @JoinColumn(name = "owner_id", referencedColumnName = "id_owner"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
+    private Set<Role> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -34,6 +44,30 @@ public class Owner {
 
     public String getNameOwner() {
         return nameOwner;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void setNameOwner(String nameOwner) {
@@ -49,6 +83,9 @@ public class Owner {
         return "Owner{" +
                 "id=" + id +
                 ", nameOwner='" + nameOwner + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles ='" + roles.stream().map(r -> r.getName()).toArray().toString() +
                 '}';
     }
 }

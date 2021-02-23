@@ -1,6 +1,7 @@
 package zhurenko.ua.security;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,9 +11,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import zhurenko.ua.model.User;
-import zhurenko.ua.repository.UserJPA;
-import zhurenko.ua.service.UserService;
+import zhurenko.ua.model.Owner;
+import zhurenko.ua.service.OwnerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +22,16 @@ import java.util.List;
 public class AuthProvider implements AuthenticationProvider {
 
 //    private final UserService userService;
-    private UserJPA userJPA;
+    private OwnerService ownerService;
 
     private PasswordEncoder passwordEncoder;
 
-    public void setUserJPA(UserJPA userJPA) {
-        this.userJPA = userJPA;
+    @Autowired
+    public void setOwnerService(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
+    @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
@@ -37,17 +39,17 @@ public class AuthProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
-        User user = userJPA.getByEmail(email);
-        if(user == null){
-            throw new UsernameNotFoundException("User with this email not found !");
+        Owner owner = ownerService.getOwnerByEmail(email);
+        if(owner == null){
+            throw new UsernameNotFoundException(String.format("User with email %s not found !", email));
         }
 
         String password = authentication.getCredentials().toString();
-        if(! passwordEncoder.matches(password, user.getPassword())){
-            throw new BadCredentialsException("Bad credentials!");
+        if(! passwordEncoder.matches(password, owner.getPassword())){
+            throw new BadCredentialsException(String.format("Bad credentials! Password %s is absent", password));
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
-        return new UsernamePasswordAuthenticationToken(user, null, authorities);
+        return new UsernamePasswordAuthenticationToken(owner, null, authorities);
     }
 
     @Override

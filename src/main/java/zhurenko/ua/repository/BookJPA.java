@@ -3,6 +3,7 @@ package zhurenko.ua.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import zhurenko.ua.model.Book;
+import zhurenko.ua.model.Owner;
 
 import java.util.List;
 
@@ -23,5 +24,7 @@ public interface BookJPA extends JpaRepository<Book, Long> {
     List<Book> findBookByNumPages(int numPages);
 
     List<Book> findBookByDescription(String desc);
+
+    List<Book> findBookByOwnersIsContaining(Owner owner);
 
 }

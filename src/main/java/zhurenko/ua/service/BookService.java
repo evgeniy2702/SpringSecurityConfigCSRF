@@ -62,6 +62,11 @@ public class BookService {
                 books = bookJPA.findBookByStileOfBook((String) search);
             if (bookJPA.findBookByDescription((String) search).size()!= 0)
                 books = bookJPA.findBookByDescription((String) search);
+            List<Owner> owners = ownerService.getListOwners();
+            Owner owner = (Owner)owners.stream().filter(o -> o.getNameOwner().equalsIgnoreCase((String)search))
+                        .toArray()[0];
+            if(bookJPA.findBookByOwnersIsContaining(owner).size() != 0)
+                books = bookJPA.findBookByOwnersIsContaining(owner);
         } else if (search instanceof Integer) {
             if (bookJPA.findBookByYear((Integer) search).size() != 0)
                 books = bookJPA.findBookByYear((Integer) search);

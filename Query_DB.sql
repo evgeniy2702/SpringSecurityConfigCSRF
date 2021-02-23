@@ -40,6 +40,8 @@ ADD CONSTRAINT `buyerKey`
   CREATE TABLE `books`.`owners` (
   `id_owner` BIGINT(100) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL DEFAULT 'Null',
+  `email` VARCHAR (45) NOT NULL,
+  `password` VARCHAR (100) NOT NULL,
   PRIMARY KEY (`id_owner`));
 
   CREATE TABLE `books`.`owner_books` (
@@ -60,15 +62,9 @@ ADD CONSTRAINT `buyerKey`
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-    CREATE TABLE `books`.`users` (
-  `id` BIGINT(100) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
-
     CREATE TABLE `books`.`role` (
   `id` BIGINT(100) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`));
 
 INSERT INTO `books`.`owners` (`name`) VALUES ('Owner_1');

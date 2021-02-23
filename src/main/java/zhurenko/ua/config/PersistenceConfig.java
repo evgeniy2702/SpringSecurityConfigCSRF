@@ -37,9 +37,9 @@ public class PersistenceConfig {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.show.sql", "true");
-        properties.setProperty("format_sql", "false");
+        properties.setProperty("format_sql", "true");
         properties.setProperty("use_sql_comments", "false");
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         return properties;
     }
 

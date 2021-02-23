@@ -6,4 +6,5 @@ import zhurenko.ua.model.Owner;
 
 @Repository
 public interface OwnerJPA extends JpaRepository<Owner, Long> {
+    Owner getByEmail(String email);
 }

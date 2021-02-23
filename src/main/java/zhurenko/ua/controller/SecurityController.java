@@ -3,26 +3,29 @@ package zhurenko.ua.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import zhurenko.ua.model.User;
-import zhurenko.ua.service.UserService;
-
-import javax.persistence.GeneratedValue;
+import zhurenko.ua.model.Owner;
+import zhurenko.ua.service.OwnerService;
 
 @Controller
 public class SecurityController {
 
-    private final UserService userService;
+    private final OwnerService ownerService;
 
-    public SecurityController(UserService userService) {
-        this.userService = userService;
+    public SecurityController(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping({"/login","/signin"})
     public String login(@RequestParam(name = "error", required = false)
                                     Boolean error, Model model){
         if(Boolean.TRUE.equals(error)){
             model.addAttribute("error" , true);
         }
+        return "signin";
+    }
+
+    @PostMapping("/logout")
+    public String logout(){
         return "signin";
     }
 
@@ -32,8 +35,9 @@ public class SecurityController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute User user){
-        userService.save(user);
+    public String registration(@ModelAttribute Owner owner){
+        System.out.println(owner);
+        ownerService.saveOwner(owner);
         return "redirect:/login";
     }
 
